@@ -23,7 +23,6 @@ tx.commit()
 tx.close()
 
 if(request.delete == "true"){
-    log.info("about to delete " + components.flatten(compInfo))
     for(Component c : components) {
         log.delete("deleting " + compInfo(c))
         tx2 = storageFacet.txSupplier().get()
@@ -32,12 +31,11 @@ if(request.delete == "true"){
         tx2.commit()
         tx2.close()
     }
-    log.info("finished deleting " + components.flatten(compInfo))
+    components.each{ x -> log.info("successfully deleted artifact: " + x }
 }
 else {
-    log.info("components that would be deleted: "+components.size() + "\n"+components.flatten(compInfo))
+    components.each{ x -> log.info("potential delete candidate: " + x }
 }
-
 
 
 def result = JsonOutput.toJson([
